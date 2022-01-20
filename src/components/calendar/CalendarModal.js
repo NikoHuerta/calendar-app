@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import DateTimePicker from 'react-datetime-picker';
 import Modal from 'react-modal';
 import Swal from "sweetalert2";
 
-import { useForm } from '../../hooks/useForm';
 import { uiCloseModal } from '../../actions/ui';
+import { eventAddNew, eventRemoveActive, eventUpdated } from '../../actions/calendarEvents';
 
 
 
@@ -26,35 +26,59 @@ Modal.setAppElement('#root');
 const now = moment().minutes(0).seconds(0).add(1, 'hours');
 const endNow = now.clone().add(1, 'hours');
 
+const initFormValue = {
+    title: '',
+    notes: '',
+    start: now.toDate(),
+    end: endNow.toDate()
+};
+
 export const CalendarModal = () => {
 
-    const [ dateStart, setDateStart ] = useState(now.toDate());
-    const [ dateEnd, setDateEnd ] = useState(endNow.toDate());
-    const [titleValid, setTitleValid] = useState(true);
-    
-    const dispatch = useDispatch();
     const { modalOpen } = useSelector(state => state.ui);
+    const { activeEvent } = useSelector(state => state.calendar);
+    const [titleValid, setTitleValid] = useState(true);
+      
+    const [formValues, setFormValues] = useState(initFormValue);
+    const { start, end, notes, title } = formValues;
+
+    const resetForm = () => {
+        setFormValues(initFormValue);
+    }
+
+    useEffect(() => {
+        if(activeEvent){
+            setFormValues(activeEvent);
+        }else{
+            setFormValues(initFormValue);
+        }
+    }, [activeEvent, setFormValues]);
 
 
-    const initialForm = {
-        title: '',
-        notes: '',
-        start: dateStart,
-        end: dateEnd
+    const handleInputChange = (e) => {
+        if(typeof (e.target) != "undefined"){
+            setFormValues({
+                ...formValues,
+                [e.target.name]: e.target.value
+            });
+        }else{
+            setFormValues({
+                ...formValues,
+                start: e.start,
+                end: e.end
+            })
+        }
     };
 
-    const [formValues, handleInputChange, reset] = useForm(initialForm);
-
-    const { title, notes, start, end } = formValues;
-    
+    const dispatch = useDispatch();
 
     const closeModal = () => {
         dispatch(uiCloseModal());
+        dispatch(eventRemoveActive());
+        resetForm();
     };
 
     const handleStartDateChange = (e) => {
-        setDateStart(e);
-
         handleInputChange({
             ...formValues,
             start: e
@@ -62,8 +86,6 @@ export const CalendarModal = () => {
     };
 
     const handleEndDateChange = (e) => {
-        setDateEnd(e);
-
         handleInputChange({
             ...formValues,
             end: e
@@ -72,6 +94,7 @@ export const CalendarModal = () => {
 
     const handleSubmitForm = (e) => {
         e.preventDefault();
+        // console.log(formValues);
 
         const momentStart = moment(start);
         const momentEnd = moment(end);
@@ -85,12 +108,35 @@ export const CalendarModal = () => {
             });
         }
 
-        if(title.trim().length < 2){
-            setTitleValid(false);
+        if(momentStart.isBefore( moment() )){
+            console.log('Fecha inicio no debe ser menor a la fecha actual');
+            return Swal.fire({
+                title: 'Error',
+                text: 'La fecha de inicio debe de ser mayor a la fecha actual',
+                icon: 'error'
+            });
         }
+
+        if(title.trim().length < 2){
+            return setTitleValid(false);
+        }
+        
 
         //TODO: realizar save en BD
 
+        if(activeEvent){
+            dispatch( eventUpdated(formValues) );
+        }else{
+            dispatch( eventAddNew({
+                ...formValues,
+                id: new Date().getTime(),
+                user: {
+                    _id: 1234567890,
+                    name: 'default name'
+                }
+            }) );
+        }
+        
         setTitleValid(true);
         closeModal();
     }
@@ -104,7 +150,7 @@ export const CalendarModal = () => {
             overlayClassName="modal-fondo"
             closeTimeoutMS={200}
         >
-            <h1> Nuevo evento </h1>
+            <h1> { (activeEvent)? 'Editar Evento' : 'Nuevo evento' } </h1>
             <hr />
             <form 
                 className="container"
@@ -115,7 +161,7 @@ export const CalendarModal = () => {
                     <label>Fecha y hora inicio</label>
                     <DateTimePicker
                         onChange={ handleStartDateChange }
-                        value={ dateStart }
+                        value={ start }
                         className="form-control"
                         name='start'
                     />
@@ -125,8 +171,8 @@ export const CalendarModal = () => {
                     <label>Fecha y hora fin</label>
                     <DateTimePicker
                         onChange={ handleEndDateChange }
-                        value={ dateEnd }
-                        minDate={ dateStart }
+                        value={ end }
+                        minDate={ start }
                         className="form-control"
                         name='end'
                     />
