@@ -18,3 +18,10 @@ export const eventUpdated = (event) => ({
 }); 
 
 export const eventDeleted = () => ({ type: types.eventDeleted });
+
+export const eventSelectedDate = (dates) => ({ 
+    type: types.eventSelectedDate,
+    payload: dates
+});
+
+export const eventRemoveSelectedDate = () => ({ type: types.eventRemoveSelectedDate });

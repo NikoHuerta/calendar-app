@@ -10,9 +10,10 @@ import { Navbar } from '../ui/Navbar';
 import { CalendarEvent } from './CalendarEvent';
 import { CalendarModal } from './CalendarModal';
 import { uiOpenModal } from '../../actions/ui';
-import { eventRemoveActive, eventSetActive } from '../../actions/calendarEvents';
+import { eventRemoveActive, eventRemoveSelectedDate, eventSelectedDate, eventSetActive } from '../../actions/calendarEvents';
 import { AddNewFab } from '../ui/AddNewFab';
 import { DeleteEventFab } from '../ui/DeleteEventFab';
+import Swal from 'sweetalert2';
 
 
 
@@ -40,8 +41,40 @@ export const CalendarScreen = () => {
     }
 
     const onSelectSlot = (e) => {
-        console.log(e);
+        // console.log(e);
         dispatch(eventRemoveActive());
+        dispatch(eventRemoveSelectedDate());
+        if ((e.action === 'doubleClick') || (e.action === 'select')) {
+
+            const momentStart = moment(e.start);
+            const momentEnd = moment(e.end);
+    
+            if(momentStart.isSameOrAfter(momentEnd)){
+                console.log('Fecha fin debe ser mayor');
+                return Swal.fire({
+                    title: 'Error',
+                    text: 'La fecha de fin debe de ser mayor a la fecha de inicio',
+                    icon: 'error'
+                });
+            }
+    
+            if(momentStart.isBefore( moment() )){
+                console.log('Fecha inicio no debe ser menor a la fecha actual');
+                return Swal.fire({
+                    title: 'Error',
+                    text: 'La fecha de inicio debe de ser mayor a la fecha actual',
+                    icon: 'error'
+                });
+            }
+            
+            dispatch(eventSelectedDate({
+                start: e.start,
+                end: e.end
+            }) );
+ 
+            dispatch(uiOpenModal());
+        }
+
     }
 
     const eventStyleGetter = (event, start, end, isSelected) => {

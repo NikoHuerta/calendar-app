@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import Swal from "sweetalert2";
 
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew, eventRemoveActive, eventUpdated } from '../../actions/calendarEvents';
+import { eventAddNew, eventRemoveActive, eventRemoveSelectedDate, eventUpdated } from '../../actions/calendarEvents';
 
 
 
@@ -37,6 +37,8 @@ export const CalendarModal = () => {
 
     const { modalOpen } = useSelector(state => state.ui);
     const { activeEvent } = useSelector(state => state.calendar);
+    const {start: startDateSelected, end: endDateSelected} = useSelector(state => state.calendar.selectedDate);
+
     const [titleValid, setTitleValid] = useState(true);
       
     const [formValues, setFormValues] = useState(initFormValue);
@@ -73,8 +75,9 @@ export const CalendarModal = () => {
     const dispatch = useDispatch();
 
     const closeModal = () => {
-        dispatch(uiCloseModal());
-        dispatch(eventRemoveActive());
+        dispatch( uiCloseModal() );
+        dispatch( eventRemoveActive() );
+        dispatch( eventRemoveSelectedDate() );
         resetForm();
     };
 
@@ -127,14 +130,29 @@ export const CalendarModal = () => {
         if(activeEvent){
             dispatch( eventUpdated(formValues) );
         }else{
-            dispatch( eventAddNew({
-                ...formValues,
-                id: new Date().getTime(),
-                user: {
-                    _id: 1234567890,
-                    name: 'default name'
-                }
-            }) );
+
+            if(startDateSelected){ //evento seleccionado con selected
+                dispatch( eventAddNew({
+                    ...formValues,
+                    start: startDateSelected,
+                    end: endDateSelected, 
+                    id: new Date().getTime(),
+                    user: {
+                        _id: 1234567890,
+                        name: 'default name'
+                    }
+                }) );
+            }else{ //evento seleccionado con boton '+'
+                dispatch( eventAddNew({
+                    ...formValues,
+                    id: new Date().getTime(),
+                    user: {
+                        _id: 1234567890,
+                        name: 'default name'
+                    }
+                }) );
+            }
+            
         }
         
         setTitleValid(true);
@@ -161,7 +179,7 @@ export const CalendarModal = () => {
                     <label>Fecha y hora inicio</label>
                     <DateTimePicker
                         onChange={ handleStartDateChange }
-                        value={ start }
+                        value={ (startDateSelected) ? startDateSelected : start }
                         className="form-control"
                         name='start'
                     />
@@ -171,7 +189,7 @@ export const CalendarModal = () => {
                     <label>Fecha y hora fin</label>
                     <DateTimePicker
                         onChange={ handleEndDateChange }
-                        value={ end }
+                        value={ (endDateSelected)? endDateSelected : end }
                         minDate={ start }
                         className="form-control"
                         name='end'

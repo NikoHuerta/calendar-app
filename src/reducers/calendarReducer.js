@@ -15,6 +15,10 @@ const initialState = {
         }
     }],
     activeEvent: null,
+    selectedDate: {
+        start: null,
+        end: null
+    },
 };
 
 
@@ -53,6 +57,21 @@ export const calendarReducer = (state = initialState, action) => {
                 ...state,
                 events: state.events.filter( event => (event.id !== state.activeEvent.id) ),
                 activeEvent: null,
+            }
+        
+        case types.eventSelectedDate:
+            return {
+                ...state,
+                selectedDate: action.payload
+            }
+        
+        case types.eventRemoveSelectedDate:
+            return {
+                ...state,
+                selectedDate: {
+                    start: null,
+                    end: null
+                }
             }
 
         default:
