@@ -4,8 +4,11 @@ import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import validator from 'validator';
 
+import GoogleLogin from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
+
 import { useForm } from '../../hooks/useForm';
-import { startLogin, startRegister } from '../../actions/auth';
+import { startGoogleLogin, startLogin, startRegister } from '../../actions/auth';
 
 
 export const LoginScreen = () => {
@@ -34,19 +37,33 @@ export const LoginScreen = () => {
     const handleRegister = (e) => {
         e.preventDefault();
 
-        if( rPassword1 !== rPassword2 ){
+        if( rPassword1 !== rPassword2 )
             return Swal.fire('Error', 'Las contraseñas tienen que ser iguales', 'error');
-        }
         if( !validator.isEmail( rEmail ))
             return Swal.fire('Error', 'El correo es inválido', 'error')
         if( !validator.isLength( rName, { min:6, max: undefined }) )
             return Swal.fire('Error', 'El nombre debe ser de mas de 6 caracteres', 'error');
         
         dispatch( startRegister(rEmail, rPassword1, rName) );
-
-        //console.log(formRegisterValues);
     }
 
+    const handleGoogleLogin = ( response ) => {
+        console.log(response);
+        console.log('Google Sign In Detected');
+        console.log('id_token: ', response.tokenId);
+
+
+    };
+
+    const handleFacebookLogin = ( response ) => {
+        console.log(response);
+        console.log('Facebook Sign In Detected');
+        console.log('access_token: ', response.accessToken);
+
+        // VERIFY TOKEN:
+        // https://graph.facebook.com/debug_token?input_token={token-to-check}&access_token={app_id}|{app_secret}
+
+    };
 
 
     return (
@@ -137,6 +154,23 @@ export const LoginScreen = () => {
                                 value="Crear cuenta" />
                         </div>
                     </form>
+
+                    <GoogleLogin 
+                        clientId={ process.env.REACT_APP_GOOGLE_CLIENT }
+                        buttonText="Login with Google"
+                        onSuccess={ handleGoogleLogin }
+                        onFailure={ handleGoogleLogin }
+                        isSignedIn={ false }
+                        cookiePolicy={'single_host_origin'}
+                    />
+
+                    <FacebookLogin 
+                        appId={ process.env.REACT_APP_FACEBOOK_CLIENT }
+                        autoLoad={ false }
+                        fields="name,email,picture"
+                        callback={ handleFacebookLogin }
+                    />
+
                 </div>
             </div>
         </div>

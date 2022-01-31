@@ -22,10 +22,6 @@ export const startLogin = (email, password) => {
 
             const errorMsg = body.errors ? Object.values( body.errors )[0].msg : body.msg;
             Swal.fire('Error', errorMsg, 'error');
-
-            // let sumError = '';
-            // const errorMsg2 = body.errors ? Object.values(body.errors).forEach( element =>  sumError+=element) : body.msg;
-            // console.log(sumError);
         }
     }
 }
@@ -45,9 +41,15 @@ export const startRegister = (email, password, name) => {
                 name: body.name
             }) );
         } else {
-            console.log(body);
+            
+            const errorMsg = body.errors ? Object.values( body.errors )[0].msg : body.msg;
+            Swal.fire('Error', errorMsg, 'error');
         }
     }
+}
+
+export const startGoogleLogin = () => {
+
 }
 
 const login = ( user ) => ({
