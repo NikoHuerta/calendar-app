@@ -1,7 +1,7 @@
 export const types = {
 
-    uiOpenModal: '[ui] Open Modal',
-    uiCloseModal: '[ui] Close Modal',
+    uiOpenModal: '[ui-event] Open Modal',
+    uiCloseModal: '[ui-event] Close Modal',
 
     eventSetActive: '[calendar-event] Set Active',
     eventRemoveActive: '[calendar-event] Remove Active',
@@ -10,5 +10,14 @@ export const types = {
     eventDeleted: '[calendar-event] Event Deleted',
 
     eventSelectedDate: '[calendar-event] Selected Date',
-    eventRemoveSelectedDate: '[calendar-event] Remove Selected Date'
+    eventRemoveSelectedDate: '[calendar-event] Remove Selected Date',
+
+    authChecking: '[auth-event] Checking login state',
+    authCheckingFinish: '[auth-event] Finish checking login state',
+    authStartLogin: '[auth-event] Start Loging',
+    authLogin: '[auth-event] Login',
+    authStartRegister: '[auth-event] Start Register',
+    authStartTokenRenew: '[auth-event] Start token renew',
+    authLogout: '[auth-event] Logout'
+
 }
