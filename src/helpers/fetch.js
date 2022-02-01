@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const baseUrl = process.env.REACT_APP_API_URL;
 
 const fetchSinToken = ( endpoint, data, method = 'GET' ) => {
@@ -17,7 +19,23 @@ const fetchSinToken = ( endpoint, data, method = 'GET' ) => {
     }
 };
 
+const fetchAxios = async (endpoint, body='', method, params='', authToken='') => {
+    
+    const url = `${ baseUrl }/${ endpoint }`;
+    try {
+        return await axios({
+            method,
+            headers: {'Content-type': 'application/json'},
+            params,
+            url,
+            data: JSON.stringify( body ),
+        });
+    } catch(err){
+        return err.response;    
+    }
+}
 
 export {
-    fetchSinToken
+    fetchSinToken,
+    fetchAxios
 }
