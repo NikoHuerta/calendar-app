@@ -49,3 +49,14 @@
     font-weight: 600;
     text-decoration: none;
 }
+
+.auth__social-networks {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction:  column;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    width: 100%;
+}
+

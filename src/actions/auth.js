@@ -40,6 +40,7 @@ export const startRegister = (email, password, name) => {
                 uid: body.uid,
                 name: body.name
             }) );
+            
         } else {
             
             const errorMsg = body.errors ? Object.values( body.errors )[0].msg : body.msg;
@@ -48,8 +49,52 @@ export const startRegister = (email, password, name) => {
     }
 }
 
-export const startGoogleLogin = () => {
+export const startGoogleLogin = (idToken) => {
+    return async (dispatch) => {
 
+        const resp = await fetchSinToken('auth/google', { id_token: idToken }, 'POST');
+        const body = await resp.json();
+
+        if(body.ok){
+            localStorage.setItem('token', body.token);
+            localStorage.setItem('token-init-date', new Date().getTime() );
+
+            dispatch( login({ 
+                uid: body.usuario.uid,
+                name: body.usuario.name
+            }) );
+
+        } else {
+            
+            const errorMsg = body.errors ? Object.values( body.errors )[0].msg : body.msg;
+            Swal.fire('Error', errorMsg, 'error');
+        }
+
+    }
+
+}
+
+export const startFacebookLogin = (idToken, name, email) => {
+    return async (dispatch) => {
+        const resp = await fetchSinToken('auth/facebook', { id_token: idToken, name, email }, 'POST');
+        const body = await resp.json();
+
+        if(body.ok){
+            localStorage.setItem('token', body.token);
+            localStorage.setItem('token-init-date', new Date().getTime() );
+
+            dispatch( login({ 
+                uid: body.usuario.uid,
+                name: body.usuario.name
+            }) );
+
+        } else {
+            
+            const errorMsg = body.errors ? Object.values( body.errors )[0].msg : body.msg;
+            Swal.fire('Error', errorMsg, 'error');
+        }
+        
+    }
 }
 
 const login = ( user ) => ({
