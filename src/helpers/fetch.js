@@ -22,10 +22,18 @@ const fetchSinToken = ( endpoint, data, method = 'GET' ) => {
 const fetchAxios = async (endpoint, body='', method, params='', authToken='') => {
     
     const url = `${ baseUrl }/${ endpoint }`;
+    let headers;
+
+    if(authToken){
+        headers = {'Content-type': 'application/json', 'x-api-key': authToken};
+    }else{
+        headers = { 'Content-type': 'application/json' };
+    }
+
     try {
         return await axios({
             method,
-            headers: {'Content-type': 'application/json'},
+            headers,
             params,
             url,
             data: JSON.stringify( body ),

@@ -104,7 +104,40 @@ export const startFacebookLogin = (idToken, name, email) => {
     }
 }
 
+export const startChecking = () => {
+    return async (dispatch) => {
+        const resp = await fetchAxios('auth/renew', undefined,'GET',undefined, localStorage.getItem('token'));
+        const { data: body } = resp;
+
+        if(body.ok){
+
+            localStorage.setItem('token', body.token);
+            localStorage.setItem('token-init-date', new Date().getTime() );
+
+            dispatch( login({ 
+                uid: body.uid,
+                name: body.name
+            }) );
+
+        } else {
+            dispatch( checkingFinish() );
+        }
+
+    }
+}
+
+const checkingFinish = () => ({ type: types.authCheckingFinish });
+
 const login = ( user ) => ({
     type: types.authLogin,
     payload: user
-})
+});
+
+const logout = () => ({ type: types.authLogout });
+
+export const startLogout = () => {
+    return( dispatch ) => {
+        localStorage.clear();
+        dispatch( logout() );
+    }
+}

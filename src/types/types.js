@@ -12,7 +12,6 @@ export const types = {
     eventSelectedDate: '[calendar-event] Selected Date',
     eventRemoveSelectedDate: '[calendar-event] Remove Selected Date',
 
-    authChecking: '[auth-event] Checking login state',
     authCheckingFinish: '[auth-event] Finish checking login state',
     authStartLogin: '[auth-event] Start Loging',
     authLogin: '[auth-event] Login',
