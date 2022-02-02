@@ -18,7 +18,8 @@ export const startLogin = (email, password) => {
 
             dispatch( login({ 
                     uid: body.uid,
-                    name: body.name
+                    name: body.name,
+                    rol: body.rol
                 }) );
         } else {
 
@@ -39,10 +40,11 @@ export const startRegister = (email, password, name) => {
         if(body.ok){
             localStorage.setItem('token', body.token);
             localStorage.setItem('token-init-date', new Date().getTime() );
-
+            
             dispatch( login({ 
                 uid: body.uid,
-                name: body.name
+                name: body.name,
+                rol: body.rol
             }) );
             
         } else {
@@ -67,7 +69,8 @@ export const startGoogleLogin = (idToken) => {
 
             dispatch( login({ 
                 uid: body.usuario.uid,
-                name: body.usuario.name
+                name: body.usuario.name,
+                rol: body.usuario.rol
             }) );
 
         } else {
@@ -93,7 +96,8 @@ export const startFacebookLogin = (idToken, name, email) => {
 
             dispatch( login({ 
                 uid: body.usuario.uid,
-                name: body.usuario.name
+                name: body.usuario.name,
+                rol: body.usuario.rol
             }) );
 
         } else {
@@ -116,7 +120,8 @@ export const startChecking = () => {
 
             dispatch( login({ 
                 uid: body.uid,
-                name: body.name
+                name: body.name,
+                rol: body.rol
             }) );
 
         } else {
