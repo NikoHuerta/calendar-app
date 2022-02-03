@@ -1,4 +1,5 @@
 import { fetchAxios } from "../helpers/fetch";
+import { prepareEvents } from "../helpers/prepareEvents";
 import { types } from "../types/types"
 
 
@@ -14,7 +15,7 @@ export const eventStartAddNew = (event) => {
 
             if(body.ok){
                 event.id = body.evento.eventId;
-                event.user = {
+                event.usuario = {
                     _id : uid,
                     name : name
                 }
@@ -53,16 +54,34 @@ export const eventSelectedDate = (dates) => ({
 
 export const eventRemoveSelectedDate = () => ({ type: types.eventRemoveSelectedDate });
 
-export const eventStartLoading = () => {
+//Cargar los eventos asociados al usuario
+export const eventStartLoadingUser = () => {
+    return async ( dispatch ) => {
+        try {
+
+            const resp = await fetchAxios('eventos/usuario',undefined,'GET',undefined, localStorage.getItem('token'));
+            const { data: body } = resp;
+            
+            const eventos = prepareEvents(body.eventos);
+            dispatch( eventLoaded(eventos) );
+
+        } catch (err){
+            console.log(err);
+        }
+
+    }
+}
+
+//Cargar todos los eventos
+export const eventStartLoadingAll = () => {
     return async ( dispatch ) => {
         try {
 
             const resp = await fetchAxios('eventos',undefined,'GET',undefined, localStorage.getItem('token'));
             const { data: body } = resp;
-            const { eventos } = body;
-            console.log(eventos);
 
-            dispatch( eventLoaded([]) );
+            const eventos = prepareEvents(body.eventos);
+            dispatch( eventLoaded(eventos) );
 
         } catch (err){
             console.log(err);

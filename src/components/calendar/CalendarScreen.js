@@ -10,7 +10,7 @@ import { Navbar } from '../ui/Navbar';
 import { CalendarEvent } from './CalendarEvent';
 import { CalendarModal } from './CalendarModal';
 import { uiOpenModal } from '../../actions/ui';
-import { eventRemoveActive, eventRemoveSelectedDate, eventSelectedDate, eventSetActive, eventStartLoading } from '../../actions/calendarEvents';
+import { eventRemoveActive, eventRemoveSelectedDate, eventSelectedDate, eventSetActive, eventStartLoadingAll, eventStartLoadingUser } from '../../actions/calendarEvents';
 import { AddNewFab } from '../ui/AddNewFab';
 import { DeleteEventFab } from '../ui/DeleteEventFab';
 import Swal from 'sweetalert2';
@@ -28,7 +28,8 @@ export const CalendarScreen = () => {
     const { events, activeEvent } = useSelector(state => state.calendar);
 
     useEffect(() => {
-      dispatch( eventStartLoading() );
+    //   dispatch( eventStartLoadingUser() ); //PARA CARGAR SOLO LOS DEL USUARIO LOGEADO
+        dispatch( eventStartLoadingAll() ); //PARA CARGAR TODOS LOS EVENTOS
 
     }, [dispatch]);
     
@@ -85,7 +86,7 @@ export const CalendarScreen = () => {
     }
 
     const eventStyleGetter = (event, start, end, isSelected) => {
-        // console.log(event, start, end, isSelected);
+        console.log(event);
         const style = {
             backgroundColor: '#367CF7',
             borderRadius: '0px',
