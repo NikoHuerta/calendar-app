@@ -5,9 +5,12 @@ export const types = {
 
     eventSetActive: '[calendar-event] Set Active',
     eventRemoveActive: '[calendar-event] Remove Active',
+    eventStartAddNew: '[calendar-event] Start Add New',
     eventAddNew: '[calendar-event] Add New Event',
     eventUpdated: '[calendar-event] Event Updated',
     eventDeleted: '[calendar-event] Event Deleted',
+    eventLoaded: '[calendar-event] Event Loaded',
+    
 
     eventSelectedDate: '[calendar-event] Selected Date',
     eventRemoveSelectedDate: '[calendar-event] Remove Selected Date',

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -10,7 +10,7 @@ import { Navbar } from '../ui/Navbar';
 import { CalendarEvent } from './CalendarEvent';
 import { CalendarModal } from './CalendarModal';
 import { uiOpenModal } from '../../actions/ui';
-import { eventRemoveActive, eventRemoveSelectedDate, eventSelectedDate, eventSetActive } from '../../actions/calendarEvents';
+import { eventRemoveActive, eventRemoveSelectedDate, eventSelectedDate, eventSetActive, eventStartLoading } from '../../actions/calendarEvents';
 import { AddNewFab } from '../ui/AddNewFab';
 import { DeleteEventFab } from '../ui/DeleteEventFab';
 import Swal from 'sweetalert2';
@@ -26,6 +26,13 @@ export const CalendarScreen = () => {
     const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
     const dispatch = useDispatch();
     const { events, activeEvent } = useSelector(state => state.calendar);
+
+    useEffect(() => {
+      dispatch( eventStartLoading() );
+
+    }, [dispatch]);
+    
+
 
     const onDoubleClick = (e) => {
         dispatch(uiOpenModal());

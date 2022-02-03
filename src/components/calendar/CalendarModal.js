@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import Swal from "sweetalert2";
 
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew, eventRemoveActive, eventRemoveSelectedDate, eventUpdated } from '../../actions/calendarEvents';
+import { eventRemoveActive, eventRemoveSelectedDate, eventStartAddNew, eventUpdated } from '../../actions/calendarEvents';
 
 
 
@@ -132,25 +132,13 @@ export const CalendarModal = () => {
         }else{
 
             if(startDateSelected){ //evento seleccionado con selected
-                dispatch( eventAddNew({
+                dispatch( eventStartAddNew({
                     ...formValues,
                     start: startDateSelected,
-                    end: endDateSelected, 
-                    id: new Date().getTime(),
-                    user: {
-                        _id: 1234567890,
-                        name: 'default name'
-                    }
+                    end: endDateSelected
                 }) );
             }else{ //evento seleccionado con boton '+'
-                dispatch( eventAddNew({
-                    ...formValues,
-                    id: new Date().getTime(),
-                    user: {
-                        _id: 1234567890,
-                        name: 'default name'
-                    }
-                }) );
+                dispatch( eventStartAddNew(formValues) );
             }
             
         }

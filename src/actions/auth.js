@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-import { fetchSinToken, fetchAxios } from "../helpers/fetch"
+import { fetchAxios } from "../helpers/fetch"
 import { types } from "../types/types";
 
 
