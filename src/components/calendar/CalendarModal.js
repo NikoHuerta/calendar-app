@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import Swal from "sweetalert2";
 
 import { uiCloseModal } from '../../actions/ui';
-import { eventRemoveActive, eventRemoveSelectedDate, eventStartAddNew, eventUpdated } from '../../actions/calendarEvents';
+import { eventRemoveActive, eventRemoveSelectedDate, eventStartAddNew, eventStartUpdate } from '../../actions/calendarEvents';
 
 
 
@@ -128,7 +128,7 @@ export const CalendarModal = () => {
         //TODO: realizar save en BD
 
         if(activeEvent){
-            dispatch( eventUpdated(formValues) );
+             dispatch( eventStartUpdate(formValues) );
         }else{
 
             if(startDateSelected){ //evento seleccionado con selected

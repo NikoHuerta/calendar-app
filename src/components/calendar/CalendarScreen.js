@@ -26,6 +26,7 @@ export const CalendarScreen = () => {
     const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
     const dispatch = useDispatch();
     const { events, activeEvent } = useSelector(state => state.calendar);
+    const { uid } = useSelector(state => state.auth);
 
     useEffect(() => {
     //   dispatch( eventStartLoadingUser() ); //PARA CARGAR SOLO LOS DEL USUARIO LOGEADO
@@ -86,9 +87,8 @@ export const CalendarScreen = () => {
     }
 
     const eventStyleGetter = (event, start, end, isSelected) => {
-        console.log(event);
         const style = {
-            backgroundColor: '#367CF7',
+            backgroundColor: (uid === event.usuario._id) ? '#367CF7' : '#465660',
             borderRadius: '0px',
             opacity: 0.8,
             display: 'block',

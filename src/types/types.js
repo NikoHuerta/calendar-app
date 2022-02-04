@@ -10,6 +10,7 @@ export const types = {
     eventUpdated: '[calendar-event] Event Updated',
     eventDeleted: '[calendar-event] Event Deleted',
     eventLoaded: '[calendar-event] Event Loaded',
+    eventLogout: '[calendar-event] Event Logout',
     
 
     eventSelectedDate: '[calendar-event] Selected Date',

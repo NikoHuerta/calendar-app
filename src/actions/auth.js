@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 
 import { fetchAxios } from "../helpers/fetch"
 import { types } from "../types/types";
+import { eventLogout } from "./calendarEvents";
 
 
 export const startLogin = (email, password) => {
@@ -143,6 +144,7 @@ const logout = () => ({ type: types.authLogout });
 export const startLogout = () => {
     return( dispatch ) => {
         localStorage.clear();
+        dispatch( eventLogout() );
         dispatch( logout() );
     }
 }

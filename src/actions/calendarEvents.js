@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { fetchAxios } from "../helpers/fetch";
 import { prepareEvents } from "../helpers/prepareEvents";
 import { types } from "../types/types"
@@ -10,11 +11,11 @@ export const eventStartAddNew = (event) => {
         const { uid, name } = getState().auth;
 
         try{
-            const resp = await fetchAxios('eventos', event, 'POST', undefined, localStorage.getItem('token'));
+            const resp = await fetchAxios('eventos', event, 'POST', {}, localStorage.getItem('token'));
             const { data: body } = resp;
 
             if(body.ok){
-                event.id = body.evento.eventId;
+                event.eventId = body.evento.eventId;
                 event.usuario = {
                     _id : uid,
                     name : name
@@ -40,12 +41,52 @@ export const eventSetActive = (event) => ({
 
 export const eventRemoveActive = () => ({ type: types.eventRemoveActive });
 
-export const eventUpdated = (event) => ({
+
+export const eventStartUpdate = ( event ) => {
+    return async ( dispatch ) => {
+
+        try{
+            const resp = await fetchAxios(`eventos/${event.eventId}`, event, 'PUT', {}, localStorage.getItem('token'));
+            const { data: body } = resp;
+
+            if(body.ok){
+                dispatch( eventUpdated(event) );
+            } else{
+                Swal.fire('Error', body.msg, 'error');
+            }
+        } catch (err){
+            console.log(err);
+        }
+    }
+}
+
+const eventUpdated = (event) => ({
     type: types.eventUpdated,
     payload: event
 }); 
 
-export const eventDeleted = () => ({ type: types.eventDeleted });
+
+export const eventStartDelete = () => {
+    return async ( dispatch, getState ) => {
+
+        const { eventId } = getState().calendar.activeEvent;
+
+        try{
+            const resp = await fetchAxios(`eventos/${eventId}`, {}, 'DELETE', {}, localStorage.getItem('token'));
+            const { data: body } = resp;
+
+            if(body.ok){
+                dispatch( eventDeleted() );
+            } else {
+                Swal.fire('Error', body.msg, 'error');
+            }
+        } catch (err){
+            console.log(err);
+        }
+    }
+}
+
+const eventDeleted = () => ({ type: types.eventDeleted });
 
 export const eventSelectedDate = (dates) => ({ 
     type: types.eventSelectedDate,
@@ -59,7 +100,7 @@ export const eventStartLoadingUser = () => {
     return async ( dispatch ) => {
         try {
 
-            const resp = await fetchAxios('eventos/usuario',undefined,'GET',undefined, localStorage.getItem('token'));
+            const resp = await fetchAxios('eventos/usuario', {},'GET', {}, localStorage.getItem('token'));
             const { data: body } = resp;
             
             const eventos = prepareEvents(body.eventos);
@@ -77,7 +118,7 @@ export const eventStartLoadingAll = () => {
     return async ( dispatch ) => {
         try {
 
-            const resp = await fetchAxios('eventos',undefined,'GET',undefined, localStorage.getItem('token'));
+            const resp = await fetchAxios('eventos', {},'GET', {}, localStorage.getItem('token'));
             const { data: body } = resp;
 
             const eventos = prepareEvents(body.eventos);
@@ -94,3 +135,5 @@ const eventLoaded = ( events ) => ({
     type: types.eventLoaded,
     payload: events 
 });
+
+export const eventLogout = () => ({ type:types.eventLogout })
