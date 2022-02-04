@@ -15,7 +15,6 @@ export const Navbar = () => {
     }
 
     const handleAdmin = () => {
-        console.log('Go admin zone!');
         navigate('/admin', { replace: true });
     }
 

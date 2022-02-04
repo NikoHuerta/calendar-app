@@ -49,7 +49,6 @@ export const LoginScreen = () => {
     }
 
     const handleGoogleLogin = ( response ) => {
-        console.log(response);
         const { tokenId } = response;
         dispatch( startGoogleLogin(tokenId) );
     };
