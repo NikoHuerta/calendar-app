@@ -111,23 +111,31 @@ export const startFacebookLogin = (idToken, name, email) => {
 
 export const startChecking = () => {
     return async (dispatch) => {
-        const resp = await fetchAxios('auth/renew', undefined,'GET',undefined, localStorage.getItem('token'));
-        const { data: body } = resp;
 
-        if(body.ok){
-
-            localStorage.setItem('token', body.token);
-            localStorage.setItem('token-init-date', new Date().getTime() );
-
-            dispatch( login({ 
-                uid: body.uid,
-                name: body.name,
-                rol: body.rol
-            }) );
-
-        } else {
+        if(localStorage.getItem('token') === null){
             dispatch( checkingFinish() );
+        } else{
+
+            const resp = await fetchAxios('auth/renew', undefined,'GET',undefined, localStorage.getItem('token'));
+            const { data: body } = resp;
+
+            if(body.ok){
+
+                localStorage.setItem('token', body.token);
+                localStorage.setItem('token-init-date', new Date().getTime() );
+
+                dispatch( login({ 
+                    uid: body.uid,
+                    name: body.name,
+                    rol: body.rol
+                }) );
+
+            } else {
+                dispatch( checkingFinish() );
+            }
         }
+
+        
 
     }
 }
