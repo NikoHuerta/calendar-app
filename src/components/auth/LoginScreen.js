@@ -66,7 +66,9 @@ export const LoginScreen = () => {
                     <h3>Ingreso</h3>
                     <form onSubmit={ handleLogin }>
                         <div className="form-group">
-                            <input 
+                            <label htmlFor="loginEmail" className="form-label">Email Address</label>
+                            <input
+                                id="loginEmail" 
                                 type="text"
                                 className="form-control"
                                 placeholder="Correo"
@@ -75,8 +77,11 @@ export const LoginScreen = () => {
                                 onChange={ handleLoginInputChange }
                             />
                         </div>
-                        <div className="form-group">
+
+                        <div className="form-group mt-3">
+                            <label htmlFor="loginPassword" className="form-label">Password</label>
                             <input
+                                id="loginPassword"
                                 type="password"
                                 className="form-control"
                                 placeholder="Contraseña"
@@ -85,21 +90,25 @@ export const LoginScreen = () => {
                                 onChange={ handleLoginInputChange }
                             />
                         </div>
-                        <div className="form-group">
+
+                        <div className="form-group mt-4 text-center">
                             <input 
                                 type="submit"
                                 className="btnSubmit"
                                 value="Login" 
                             />
                         </div>
+
                     </form>
                 </div>
 
-                <div className="col-md-6 login-form-2">
+                <div className="col-md-6 login-form-2 text-light">
                     <h3>Registro</h3>
                     <form onSubmit={ handleRegister }>
                         <div className="form-group">
+                            <label htmlFor="registerName" className="form-label">Nombre</label>
                             <input
+                                id="registerName"
                                 type="text"
                                 className="form-control"
                                 placeholder="Nombre"
@@ -108,8 +117,10 @@ export const LoginScreen = () => {
                                 onChange = { handleRegisterInputChange }
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group mt-3">
+                            <label htmlFor="registerEmail" className="form-label">Email Address</label>
                             <input
+                                id="registerEmail"
                                 type="email"
                                 className="form-control"
                                 placeholder="Correo"
@@ -118,8 +129,10 @@ export const LoginScreen = () => {
                                 onChange = { handleRegisterInputChange }
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group mt-3">
+                            <label htmlFor="registerPassword" className="form-label">Password</label>
                             <input
+                                id="registerPassword"
                                 type="password"
                                 className="form-control"
                                 placeholder="Contraseña" 
@@ -129,8 +142,10 @@ export const LoginScreen = () => {
                             />
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group mt-3">
+                            <label htmlFor="registerPassword2" className="form-label"> Confirmar password</label>
                             <input
+                                 id="registerPassword2"
                                 type="password"
                                 className="form-control"
                                 placeholder="Repita la contraseña" 
@@ -140,7 +155,7 @@ export const LoginScreen = () => {
                             />
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group mt-4 text-center">
                             <input 
                                 type="submit" 
                                 className="btnSubmit" 
