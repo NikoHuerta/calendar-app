@@ -10,7 +10,7 @@ import { Navbar } from '../ui/Navbar';
 import { CalendarEvent } from './CalendarEvent';
 import { CalendarModal } from './CalendarModal';
 import { uiOpenModal } from '../../actions/ui';
-import { eventRemoveActive, eventRemoveSelectedDate, eventSelectedDate, eventSetActive, eventStartLoadingAll, eventStartLoadingUser } from '../../actions/calendarEvents';
+import { eventRemoveActive, eventRemoveSelectedDate, eventSelectedDate, eventSetActive, eventStartLoadingAll } from '../../actions/calendarEvents';
 import { AddNewFab } from '../ui/AddNewFab';
 import { DeleteEventFab } from '../ui/DeleteEventFab';
 import Swal from 'sweetalert2';

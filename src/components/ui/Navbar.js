@@ -7,6 +7,7 @@ export const Navbar = () => {
 
     const dispatch = useDispatch(); 
     const { name, rol } = useSelector(store => store.auth);
+
     const navigate = useNavigate();
 
 
@@ -18,30 +19,51 @@ export const Navbar = () => {
         navigate('/admin', { replace: true });
     }
 
-    return (
-        <div className='navbar navbar-dark bg-dark mb-4'>
-            <span className='navbar-brand'>
-                { name }
-            </span>
-            
-            <form className="form-inline">
-                <button 
-                    className='btn btn-outline-info mr-sm-2'
-                    onClick={ handleAdmin }
-                    disabled={ (rol==='ADMIN_ROLE') ? false : true }
-                >
-                    <i className="fas fa-user-cog"></i>
-                    <span> Admin Zone </span>
-                </button>
+    const handleReturn = () =>{
+        navigate('/', { replace: true });
+    }
 
-                <button 
-                    className='btn btn-outline-danger my-2 my-sm-0'
-                    onClick={ handleLogout }
-                >
-                    <i className='fas fa-sign-out-alt'></i>
-                    <span> Logout </span>
-                </button>
-            </form>
+    return (
+        <div className='navbar navbar-dark bg-dark'>
+            <div className='container-fluid'>
+                <div className='navbar-brand'>
+                    <i className='bi bi-calendar2-event-fill align-middle mx-3'></i>
+                    <span className='align-middle'>{ name }</span>
+                </div>
+                <ul className='navbar-nav ms-auto' style={{'flexDirection': 'row'}}>
+                    <li className='nav-item'>
+                        <button 
+                            className={ `btn btn-outline-info mx-2 ${(rol==='ADMIN_ROLE') ? 'd-block' : 'd-none'}` }
+                            onClick={ handleAdmin }
+                            disabled={ (rol==='ADMIN_ROLE') ? false : true }
+                        >
+                            <i className="fas fa-user-cog"></i>
+                            <span> Admin Zone </span>
+                        </button>
+                    </li>
+                    
+                    <li className='nav-item'>
+                        <button 
+                            className={ `btn btn-outline-success mx-2 ${(rol==='ADMIN_ROLE') ? 'd-block' : 'd-none'}` }
+                            onClick={ handleReturn }
+                            disabled={ (rol==='ADMIN_ROLE') ? false : true }
+                        >
+                            <i className='fa-solid fa-angles-left'></i>
+                            <span> Volver </span>
+                        </button>
+                    </li>
+
+                    <li className='nav-item'>
+                        <button 
+                            className='btn btn-outline-danger mx-2'
+                            onClick={ handleLogout }
+                        >
+                            <i className='fas fa-sign-out-alt'></i>
+                            <span> Logout </span>
+                        </button>
+                    </li>
+                </ul>
+            </div> 
         </div>
     )
 }

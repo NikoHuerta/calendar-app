@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import SideMenu, { Item } from 'react-sidemenu';
 
 import { Navbar } from '../ui/Navbar';
+import { Sidebar } from '../ui/Sidebar';
+import { CustomersScreen } from './CustomersScreen';
+import { DashboardScreen } from './DashboardScreen';
+import { HomeScreen } from './HomeScreen';
+import { IntegrationsScreen } from './IntegrationsScreen';
+import { OrdersScreen } from './OrdersScreen';
+import { ProductsScreen } from './ProductsScreen';
+import { ReportsScreen } from './ReportsScreen';
 
 export const AdminScreen = () => {
   
     const { rol } = useSelector(store => store.auth);
-    const [selection, setSelection] = useState('users');
-
-
-    const handleClick = (selected) => {
-        setSelection(selected);
-        // console.log('clicked -->', selected);
-    }
+    const { page } = useSelector(store => store.admin);
 
     if(rol!=='ADMIN_ROLE'){
         Swal.fire('Error', 'No autorizado', 'error');
@@ -25,21 +26,27 @@ export const AdminScreen = () => {
     
     return (<div>
                 <Navbar />
-                <SideMenu onMenuItemClick={(value) => handleClick(value)}>
-                    <Item label="Data" icon="fa-database">
-                        <Item label="Users" icon="fa-users" value='users' ></Item>
-                        <Item label="Events" icon="fa-calendar-alt" value='events' ></Item>
-                    </Item>
-                </SideMenu>
 
-                { (selection ==='users') ? 
-                        <span>Here go the users</span> 
-                : (selection ==='events') ? 
-                    <span> Here go the events</span> 
-                : <span>None selected</span>
-                }
-               
-
+                <div className='container-fluid vh-100'>
+                    <div className='row'>
+                        <Sidebar />
+                            {
+                                (page ==='dashboard') ?
+                                    <DashboardScreen />
+                                : (page ==='orders') ?
+                                    <OrdersScreen />
+                                : (page ==='products') ?  
+                                    <ProductsScreen />
+                                : (page ==='customers') ? 
+                                    <CustomersScreen />
+                                : (page ==='reports') ?  
+                                    <ReportsScreen />
+                                : (page ==='integrations') ?
+                                    <IntegrationsScreen />
+                                :  <HomeScreen />
+                            }
+                    </div>
+                </div>
             </div>);
     }
 };
