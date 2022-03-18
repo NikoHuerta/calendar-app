@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pruebas en <LoginScreen /> Debe de mostrarse correctamente 1`] = `
+<div
+  className="container login-container"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-md-6 login-form-1"
+    >
+      <h3>
+        Ingreso
+      </h3>
+      <form
+        onSubmit={[Function]}
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="form-label"
+            htmlFor="loginEmail"
+          >
+            Email Address
+          </label>
+          <input
+            className="form-control"
+            id="loginEmail"
+            name="lEmail"
+            onChange={[Function]}
+            placeholder="Correo"
+            type="text"
+            value="nhuertaf@icloud.com"
+          />
+        </div>
+        <div
+          className="form-group mt-3"
+        >
+          <label
+            className="form-label"
+            htmlFor="loginPassword"
+          >
+            Password
+          </label>
+          <input
+            className="form-control"
+            id="loginPassword"
+            name="lPassword"
+            onChange={[Function]}
+            placeholder="Contraseña"
+            type="password"
+            value="123456"
+          />
+        </div>
+        <div
+          className="form-group mt-4 text-center"
+        >
+          <input
+            className="btnSubmit"
+            type="submit"
+            value="Login"
+          />
+        </div>
+      </form>
+    </div>
+    <div
+      className="col-md-6 login-form-2 text-light"
+    >
+      <h3>
+        Registro
+      </h3>
+      <form
+        onSubmit={[Function]}
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            className="form-label"
+            htmlFor="registerName"
+          >
+            Nombre
+          </label>
+          <input
+            className="form-control"
+            id="registerName"
+            name="rName"
+            onChange={[Function]}
+            placeholder="Nombre"
+            type="text"
+            value="Nicolas"
+          />
+        </div>
+        <div
+          className="form-group mt-3"
+        >
+          <label
+            className="form-label"
+            htmlFor="registerEmail"
+          >
+            Email Address
+          </label>
+          <input
+            className="form-control"
+            id="registerEmail"
+            name="rEmail"
+            onChange={[Function]}
+            placeholder="Correo"
+            type="email"
+            value="nicolas@test.com"
+          />
+        </div>
+        <div
+          className="form-group mt-3"
+        >
+          <label
+            className="form-label"
+            htmlFor="registerPassword"
+          >
+            Password
+          </label>
+          <input
+            className="form-control"
+            id="registerPassword"
+            name="rPassword1"
+            onChange={[Function]}
+            placeholder="Contraseña"
+            type="password"
+            value="123456"
+          />
+        </div>
+        <div
+          className="form-group mt-3"
+        >
+          <label
+            className="form-label"
+            htmlFor="registerPassword2"
+          >
+             Confirmar password
+          </label>
+          <input
+            className="form-control"
+            id="registerPassword2"
+            name="rPassword2"
+            onChange={[Function]}
+            placeholder="Repita la contraseña"
+            type="password"
+            value="123456"
+          />
+        </div>
+        <div
+          className="form-group mt-4 text-center"
+        >
+          <input
+            className="btnSubmit"
+            type="submit"
+            value="Crear cuenta"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

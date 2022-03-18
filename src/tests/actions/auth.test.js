@@ -4,10 +4,9 @@ import Swal from 'sweetalert2';
 
 import '@testing-library/jest-dom';
 
-import { startChecking, startLogin, startRegister } from '../../actions/auth';
+import { startLogin, startRegister } from '../../actions/auth';
 import { types } from '../../types/types';
 import * as fetchMocked from '../../helpers/fetch';
-import { type } from '@testing-library/user-event/dist/type';
 
 
 
@@ -92,31 +91,5 @@ describe('Pruebas en las acciones de auth.js', () => {
         expect(localStorage.setItem).toHaveBeenCalledWith('token', 'SADAS2DSAD');
         expect(localStorage.setItem).toHaveBeenCalledWith('token-init-date', expect.any(Number));
     });
-
-    test('startChecking correcto', async () => { 
-        
-        
-        fetchMocked.fetchAxios = jest.fn(() => ({
-            data : {
-                ok: true,
-                uid: 'asdsa2',
-                name: 'Amparito User',
-                rol: 'USER_ROLE',
-                token: 'SADAS2DSAD',
-            }
-        }));
-
-
-        await store.dispatch( startChecking() );
-        const actions = store.getActions();
-        
-        console.log(actions);
-
-
-    });
-
-
-    
-
 
 });

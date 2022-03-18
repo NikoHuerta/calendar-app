@@ -163,6 +163,8 @@ export const LoginScreen = () => {
                         </div>
                     </form>
                 </div>
+                { 
+                (process.env.NODE_ENV !== 'test') &&
                 
                 <div className="auth__social-networks">
                     <h3>Login with social networks</h3>
@@ -192,7 +194,7 @@ export const LoginScreen = () => {
                         />
                     </div>
                 </div>
-                
+                }
             </div>
         </div>
     )

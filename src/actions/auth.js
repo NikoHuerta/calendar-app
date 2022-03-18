@@ -111,7 +111,7 @@ export const startFacebookLogin = (idToken, name, email) => {
 
 export const startChecking = () => {
     return async (dispatch) => {
-        console.log(localStorage.getItem('token'));
+        // console.log(localStorage.getItem('token'));
 
         if(localStorage.getItem('token') === null){
             dispatch( checkingFinish() );
