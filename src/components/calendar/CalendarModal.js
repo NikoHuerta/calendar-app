@@ -100,6 +100,7 @@ export const CalendarModal = () => {
     const handleSubmitForm = (e) => {
         e.preventDefault();
         // console.log(formValues);
+        // console.log(end);
 
         const momentStart = moment(start);
         const momentEnd = moment(end);
@@ -151,6 +152,8 @@ export const CalendarModal = () => {
 
     return (
         <Modal
+            
+            ariaHideApp = { (process.env.NODE_ENV==='test') && false }
             isOpen={ modalOpen }
             onRequestClose={ closeModal }
             style={ customStyles }
